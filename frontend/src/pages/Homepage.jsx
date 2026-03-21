@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import RateLimitingWarning from '../components/RateLimitingWarning';
-import axios from 'axios'
+import api from '../lib/axios.js'
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import toast from 'react-hot-toast';
@@ -16,7 +16,7 @@ const Homepage = () => {
 
   const handleDelete = async (id) => {
     try{
-      await axios.delete(`http://localhost:5001/api/notes/${id}`);
+      await api.delete(`/notes/${id}`);
       setNotes(notes.filter((note)=>note._id !== id));
       toast.success("Note deleted successfully")
     }catch(error){
@@ -29,7 +29,7 @@ const Homepage = () => {
   useEffect(()=>{
     const fetchNotes = async () => {
       try{
-        const res = await axios.get("http://localhost:5001/api/notes")
+        const res = await api.get("/notes");
         setNotes(res.data)
         setIsRateLimited(false)
       }catch(error){

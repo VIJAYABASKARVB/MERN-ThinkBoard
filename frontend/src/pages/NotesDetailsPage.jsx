@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import api from '../lib/axios.js'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import toast from 'react-hot-toast';
 
@@ -13,7 +13,7 @@ const NotesDetailsPage = () => {
   useEffect(()=>{
     async function handleFetchData() {
       try{
-        const res = await axios.get(`http://localhost:5001/api/notes/${id}`)
+        const res = await api.get(`/notes/${id}`)
         setTitle(res.data.title);
         setContent(res.data.content);
       }catch(error){
@@ -26,12 +26,11 @@ const NotesDetailsPage = () => {
 
   async function handleSubmit() {
     try{
-      await axios.put(`http://localhost:5001/api/notes/${id}`, {title, content})
+      await api.put(`/notes/${id}`, {title, content})
       toast.success('updated the note Successfuly')
       navigate('/');
     }catch(error){
-      console.error('Error in handleSubmit in NotesDetailsPage'.error.message)
-      toast.error('Error in updating the note details')
+      console.error('Error in handleSubmit in NotesDetailsPage', error.message)
     }
   }
 

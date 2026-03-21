@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../lib/axios.js'; 
 import { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
@@ -10,7 +10,7 @@ const CreateNotesPage = () => {
 
   async function handleSubmit() {
     try{
-      await axios.post('http://localhost:5001/api/notes',{title,content})
+      await api.post('/notes', {title, content})
       navigate('/')
       toast.success("Note added successfuly")
     }catch(error){
